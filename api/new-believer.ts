@@ -9,21 +9,46 @@ export default async function handler(
     req: VercelRequest,
     res: VercelResponse
 ) {
+    // const allowedOrigins = [
+    //     "http://localhost:3000/",
+    //     "http://localhost:3000/new-belivers",
+    //     "https://www.householdofgodchurch.org/",
+    // ];
+
+    // const origin = req.headers.origin as string;
+
+    // if (allowedOrigins.includes(origin)) {
+    //     res.setHeader("Access-Control-Allow-Origin", origin);
+    // }
+
+    // res.setHeader("Access-Control-Allow-Origin", allowedOrigins);
+    // res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+    // res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    // if (req.method !== "POST") {
+    //     return res.status(405).json({ error: "Method not allowed" });
+    // }
+
     const allowedOrigins = [
-        "http://localhost:3000/",
-        "http://localhost:3000/new-belivers",
-        "https://www.householdofgodchurch.org/",
+        "http://localhost:3000",
+        "https://www.householdofgodchurch.org",
     ];
 
-    const origin = req.headers.origin as string;
+    const origin = req.headers.origin as string | undefined;
 
-    if (allowedOrigins.includes(origin)) {
+    if (origin && allowedOrigins.includes(origin)) {
         res.setHeader("Access-Control-Allow-Origin", origin);
     }
 
-    res.setHeader("Access-Control-Allow-Origin", allowedOrigins);
+    res.setHeader("Vary", "Origin");
     res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
     res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
+    // ✅ Handle preflight
+    if (req.method === "OPTIONS") {
+        return res.status(200).end();
+    }
+
+    // Only allow POST after preflight
     if (req.method !== "POST") {
         return res.status(405).json({ error: "Method not allowed" });
     }
