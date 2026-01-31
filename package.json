@@ -1,0 +1,16 @@
+{
+  "name": "household-church-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@vercel/node": "^5.5.28",
+    "resend": "^6.9.1"
+  }
+}
